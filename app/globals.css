@@ -1,0 +1,601 @@
+/* Tokens da identidade visual — ver design.md */
+:root {
+  --bg: #FAFAF7;
+  --surface: #FFFFFF;
+  --border: #E6E4DE;
+  --text: #17181C;
+  --text-muted: #6B6E76;
+
+  --accent: #1D4ED8;
+  --accent-hover: #1E40AF;
+
+  --stage-novo: #64748B;
+  --stage-em-contato: #D97706;
+  --stage-proposta: #7C3AED;
+  --stage-cliente: #15803D;
+
+  /* Cor de sistema, usada só em mensagens de erro (não é cor de marca). */
+  --danger: #B42318;
+
+  --radius: 10px;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html,
+body {
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  background-color: var(--bg);
+  color: var(--text);
+  line-height: 1.5;
+  -webkit-font-smoothing: antialiased;
+}
+
+/* ---- Estrutura da página ---- */
+.page {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+.topbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background-color: var(--surface);
+  border-bottom: 1px solid var(--border);
+  padding: 20px 32px;
+}
+
+.brand {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.brand-mark {
+  width: 22px;
+  height: 22px;
+  border-radius: 6px;
+  background-color: var(--accent);
+}
+
+.brand-name {
+  font-size: 18px;
+  font-weight: 800;
+  letter-spacing: -0.01em;
+  color: var(--text);
+}
+
+.main {
+  flex: 1;
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+  padding: 40px 32px 64px;
+}
+
+.app {
+  width: 100%;
+  max-width: 720px;
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+
+/* ---- Cartão (superfície branca, borda visível, cantos 10px) ---- */
+.card {
+  background-color: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 28px;
+}
+
+.section-title {
+  margin: 0 0 20px;
+  font-size: 20px;
+  font-weight: 700;
+  letter-spacing: -0.01em;
+  color: var(--text);
+}
+
+.contagem {
+  display: inline-block;
+  margin-left: 6px;
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--text-muted);
+}
+
+/* ---- Formulário ---- */
+.field {
+  margin-bottom: 16px;
+}
+
+.label {
+  display: block;
+  margin-bottom: 6px;
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--text);
+}
+
+.input {
+  width: 100%;
+  padding: 11px 12px;
+  font-family: inherit;
+  font-size: 15px;
+  color: var(--text);
+  background-color: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  outline: none;
+}
+
+.input::placeholder {
+  color: #A6A8AE;
+}
+
+.input:focus {
+  border-color: var(--accent);
+  box-shadow: 0 0 0 3px rgba(29, 78, 216, 0.15);
+}
+
+.input--erro {
+  border-color: var(--danger);
+}
+
+.erro {
+  margin: 0 0 16px;
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--danger);
+}
+
+/* ---- Botão (cor de destaque, sem gradiente nem sombra pesada) ---- */
+.botao {
+  padding: 12px 18px;
+  font-family: inherit;
+  font-size: 15px;
+  font-weight: 700;
+  color: #FFFFFF;
+  background-color: var(--accent);
+  border: none;
+  border-radius: var(--radius);
+  cursor: pointer;
+}
+
+.botao:hover {
+  background-color: var(--accent-hover);
+}
+
+.botao:disabled {
+  opacity: 0.6;
+  cursor: default;
+}
+
+/* ---- Lista de contatos ---- */
+.lista {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.lista-item {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  padding: 16px 0;
+  border-bottom: 1px solid var(--border);
+}
+
+.lista-linha {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+}
+
+.lista-item:last-child {
+  border-bottom: none;
+}
+
+.lista-info {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.lista-nome {
+  font-size: 15px;
+  font-weight: 600;
+  color: var(--text);
+}
+
+.lista-contato {
+  font-size: 14px;
+  color: var(--text-muted);
+}
+
+.vazio {
+  margin: 0;
+  font-size: 15px;
+  color: var(--text-muted);
+}
+
+/* ---- Etiquetas de etapa do funil (cores só aqui) ---- */
+.badge {
+  flex-shrink: 0;
+  display: inline-flex;
+  align-items: center;
+  padding: 4px 10px;
+  font-size: 12px;
+  font-weight: 600;
+  border: 1px solid transparent;
+  border-radius: 999px;
+  background-color: var(--surface);
+  white-space: nowrap;
+}
+
+.badge--novo {
+  color: var(--stage-novo);
+  border-color: var(--stage-novo);
+}
+
+.badge--em-contato {
+  color: var(--stage-em-contato);
+  border-color: var(--stage-em-contato);
+}
+
+.badge--proposta {
+  color: var(--stage-proposta);
+  border-color: var(--stage-proposta);
+}
+
+.badge--cliente {
+  color: var(--stage-cliente);
+  border-color: var(--stage-cliente);
+}
+
+/* ---- Anotações por contato ---- */
+.anotacoes-toggle {
+  padding: 0;
+  font-family: inherit;
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--accent);
+  background: none;
+  border: none;
+  cursor: pointer;
+}
+
+.anotacoes-toggle:hover {
+  color: var(--accent-hover);
+  text-decoration: underline;
+}
+
+.anotacoes-painel {
+  margin-top: 8px;
+  background-color: var(--bg);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 16px;
+}
+
+.anotacoes-form {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  margin-bottom: 16px;
+}
+
+.anotacoes-form .botao {
+  align-self: flex-start;
+}
+
+.textarea {
+  width: 100%;
+  padding: 10px 12px;
+  font-family: inherit;
+  font-size: 15px;
+  color: var(--text);
+  background-color: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  outline: none;
+  resize: vertical;
+}
+
+.textarea::placeholder {
+  color: #A6A8AE;
+}
+
+.textarea:focus {
+  border-color: var(--accent);
+  box-shadow: 0 0 0 3px rgba(29, 78, 216, 0.15);
+}
+
+.botao--pequeno {
+  padding: 8px 14px;
+  font-size: 14px;
+}
+
+.anotacoes-status {
+  margin: 0;
+  font-size: 14px;
+  color: var(--text-muted);
+}
+
+.anotacoes-lista {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.anotacoes-item {
+  background-color: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 10px 12px;
+}
+
+.anotacoes-texto {
+  margin: 0 0 4px;
+  font-size: 14px;
+  color: var(--text);
+  white-space: pre-wrap;
+  word-break: break-word;
+}
+
+.anotacoes-data {
+  font-size: 12px;
+  color: var(--text-muted);
+}
+
+.anotacoes-rodape {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  margin-top: 6px;
+}
+
+.anotacoes-acoes {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.anotacoes-edicao {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+/* Botão em estilo de texto (Editar, Excluir, Cancelar) */
+.botao-texto {
+  padding: 0;
+  font-family: inherit;
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--accent);
+  background: none;
+  border: none;
+  cursor: pointer;
+}
+
+.botao-texto:hover {
+  text-decoration: underline;
+}
+
+.botao-texto:disabled {
+  opacity: 0.6;
+  cursor: default;
+  text-decoration: none;
+}
+
+.botao-texto--perigo {
+  color: var(--danger);
+}
+
+/* ---- Tela de login ---- */
+.login-page {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 32px;
+}
+
+.login-card {
+  width: 100%;
+  max-width: 380px;
+}
+
+.login-brand {
+  margin-bottom: 24px;
+}
+
+.auth-link {
+  margin: 16px 0 0;
+  font-size: 14px;
+  color: var(--text-muted);
+}
+
+.auth-link a {
+  color: var(--accent);
+  font-weight: 600;
+  text-decoration: none;
+}
+
+.auth-link a:hover {
+  text-decoration: underline;
+}
+
+/* ---- Navbar interna ---- */
+.nav-esquerda {
+  display: flex;
+  align-items: center;
+  gap: 28px;
+}
+
+.nav-links {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+}
+
+.nav-link {
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--text-muted);
+  text-decoration: none;
+}
+
+.nav-link:hover {
+  color: var(--text);
+}
+
+.nav-link--ativo {
+  color: var(--accent);
+}
+
+.nav-direita {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
+.nav-usuario {
+  font-size: 14px;
+  color: var(--text-muted);
+}
+
+/* ---- Lista de usuários ---- */
+.lista-direita {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.badge--aprovado {
+  color: var(--accent);
+  border-color: var(--accent);
+}
+
+.badge--pendente {
+  color: var(--text-muted);
+  border-color: var(--border);
+}
+
+/* ---- Follow-up gerado por IA ---- */
+.followup {
+  margin-top: 4px;
+}
+
+.followup-erro {
+  margin-top: 8px;
+}
+
+.followup-caixa {
+  margin-top: 8px;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 10px;
+  background-color: var(--bg);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 14px;
+}
+
+.followup-mensagem {
+  margin: 0;
+  font-size: 14px;
+  color: var(--text);
+  white-space: pre-wrap;
+  word-break: break-word;
+}
+
+/* ---- Painel do funil ---- */
+.painel {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 24px;
+}
+
+.painel-item {
+  flex: 1;
+  min-width: 90px;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.painel-numero {
+  font-size: 40px;
+  font-weight: 800;
+  line-height: 1;
+  letter-spacing: -0.02em;
+  color: var(--text);
+}
+
+.painel-numero--novo {
+  color: var(--stage-novo);
+}
+.painel-numero--em-contato {
+  color: var(--stage-em-contato);
+}
+.painel-numero--proposta {
+  color: var(--stage-proposta);
+}
+.painel-numero--cliente {
+  color: var(--stage-cliente);
+}
+
+.painel-rotulo {
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--text-muted);
+  text-transform: capitalize;
+}
+
+/* ---- Seletor de etapa (na lista de contatos) ---- */
+.etapa-select {
+  flex-shrink: 0;
+  padding: 5px 10px;
+  font-family: inherit;
+  font-size: 12px;
+  font-weight: 600;
+  border: 1px solid var(--border);
+  border-radius: 999px;
+  background-color: var(--surface);
+  color: var(--text);
+  cursor: pointer;
+}
+
+.etapa-select--novo {
+  color: var(--stage-novo);
+  border-color: var(--stage-novo);
+}
+.etapa-select--em-contato {
+  color: var(--stage-em-contato);
+  border-color: var(--stage-em-contato);
+}
+.etapa-select--proposta {
+  color: var(--stage-proposta);
+  border-color: var(--stage-proposta);
+}
+.etapa-select--cliente {
+  color: var(--stage-cliente);
+  border-color: var(--stage-cliente);
+}

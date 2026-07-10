@@ -1,0 +1,15 @@
+# dependências
+/node_modules
+
+# build do Next.js
+/.next
+/out
+
+# SEGREDOS — nunca publicar
+.env
+.env.local
+.env*.local
+
+# logs
+*.log
+npm-debug.log*
