@@ -1,21 +1,24 @@
-/* Tokens da identidade visual — ver design.md */
+/* Tokens da identidade visual v2 · Dark Tech — ver design.md */
 :root {
-  --bg: #FAFAF7;
-  --surface: #FFFFFF;
-  --border: #E6E4DE;
-  --text: #17181C;
-  --text-muted: #6B6E76;
+  color-scheme: dark;
 
-  --accent: #1D4ED8;
-  --accent-hover: #1E40AF;
+  --bg: #0D1117;
+  --surface: #151B24;
+  --surface-elevada: #1B222E;
+  --border: #262F3D;
+  --text: #E6EAF2;
+  --text-muted: #94A0B8;
 
-  --stage-novo: #64748B;
-  --stage-em-contato: #D97706;
-  --stage-proposta: #7C3AED;
-  --stage-cliente: #15803D;
+  --accent: #4D8DFF;
+  --accent-hover: #6BA1FF;
+
+  --stage-novo: #8B99AD;
+  --stage-em-contato: #F5A524;
+  --stage-proposta: #A78BFA;
+  --stage-cliente: #34D399;
 
   /* Cor de sistema, usada só em mensagens de erro (não é cor de marca). */
-  --danger: #B42318;
+  --danger: #F87171;
 
   --radius: 10px;
 }
@@ -37,22 +40,110 @@ body {
   -webkit-font-smoothing: antialiased;
 }
 
-/* ---- Estrutura da página ---- */
-.page {
+/* ---- Shell de aplicação: cabeçalho + navegação lateral + conteúdo ---- */
+.shell {
   min-height: 100vh;
   display: flex;
   flex-direction: column;
 }
 
-.topbar {
+.shell-topo {
+  position: sticky;
+  top: 0;
+  z-index: 10;
+  height: 64px;
+  flex-shrink: 0;
   display: flex;
   align-items: center;
   justify-content: space-between;
+  padding: 0 24px;
   background-color: var(--surface);
   border-bottom: 1px solid var(--border);
-  padding: 20px 32px;
 }
 
+.shell-corpo {
+  flex: 1;
+  display: flex;
+  align-items: stretch;
+}
+
+.sidebar {
+  width: 220px;
+  flex-shrink: 0;
+  position: sticky;
+  top: 64px;
+  height: calc(100vh - 64px);
+  overflow-y: auto;
+  padding: 20px 14px;
+  background-color: var(--surface);
+  border-right: 1px solid var(--border);
+}
+
+.sidebar-nav {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.nav-item {
+  display: block;
+  padding: 10px 12px;
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--text-muted);
+  text-decoration: none;
+  border-radius: var(--radius);
+}
+
+.nav-item:hover {
+  color: var(--text);
+  background-color: var(--surface-elevada);
+}
+
+.nav-item--ativo {
+  color: var(--accent);
+  background-color: rgba(77, 141, 255, 0.12);
+}
+
+.conteudo {
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  justify-content: center;
+  padding: 40px 32px 64px;
+}
+
+/* Em telas estreitas a navegação se recolhe: vira uma barra horizontal no topo. */
+@media (max-width: 760px) {
+  .shell-corpo {
+    flex-direction: column;
+  }
+
+  .sidebar {
+    position: static;
+    width: 100%;
+    height: auto;
+    padding: 10px 16px;
+    border-right: none;
+    border-bottom: 1px solid var(--border);
+  }
+
+  .sidebar-nav {
+    flex-direction: row;
+    gap: 6px;
+    overflow-x: auto;
+  }
+
+  .nav-item {
+    white-space: nowrap;
+  }
+
+  .conteudo {
+    padding: 24px 16px 48px;
+  }
+}
+
+/* ---- Marca e lado direito do cabeçalho ---- */
 .brand {
   display: flex;
   align-items: center;
@@ -73,14 +164,19 @@ body {
   color: var(--text);
 }
 
-.main {
-  flex: 1;
+.nav-direita {
   display: flex;
-  justify-content: center;
-  align-items: flex-start;
-  padding: 40px 32px 64px;
+  align-items: center;
+  gap: 16px;
 }
 
+.nav-usuario {
+  font-family: var(--font-mono);
+  font-size: 13px;
+  color: var(--text-muted);
+}
+
+/* Coluna de conteúdo de cada área */
 .app {
   width: 100%;
   max-width: 720px;
@@ -89,7 +185,12 @@ body {
   gap: 24px;
 }
 
-/* ---- Cartão (superfície branca, borda visível, cantos 10px) ---- */
+/* Variante larga, para telas que precisam de espaço (ex.: kanban) */
+.app--larga {
+  max-width: 1180px;
+}
+
+/* ---- Cartão (superfície escura, borda visível, cantos 10px) ---- */
 .card {
   background-color: var(--surface);
   border: 1px solid var(--border);
@@ -108,8 +209,9 @@ body {
 .contagem {
   display: inline-block;
   margin-left: 6px;
+  font-family: var(--font-mono);
   font-size: 14px;
-  font-weight: 600;
+  font-weight: 500;
   color: var(--text-muted);
 }
 
@@ -132,19 +234,19 @@ body {
   font-family: inherit;
   font-size: 15px;
   color: var(--text);
-  background-color: var(--surface);
+  background-color: var(--bg);
   border: 1px solid var(--border);
   border-radius: var(--radius);
   outline: none;
 }
 
 .input::placeholder {
-  color: #A6A8AE;
+  color: #5F6B82;
 }
 
 .input:focus {
   border-color: var(--accent);
-  box-shadow: 0 0 0 3px rgba(29, 78, 216, 0.15);
+  box-shadow: 0 0 0 3px rgba(77, 141, 255, 0.25);
 }
 
 .input--erro {
@@ -158,13 +260,20 @@ body {
   color: var(--danger);
 }
 
-/* ---- Botão (cor de destaque, sem gradiente nem sombra pesada) ---- */
+/* Aviso neutro (ex.: contato salvo) */
+.aviso {
+  margin: 0 0 16px;
+  font-size: 14px;
+  color: var(--text-muted);
+}
+
+/* ---- Botão (cor de destaque, sem gradiente nem sombra) ---- */
 .botao {
   padding: 12px 18px;
   font-family: inherit;
   font-size: 15px;
   font-weight: 700;
-  color: #FFFFFF;
+  color: var(--bg);
   background-color: var(--accent);
   border: none;
   border-radius: var(--radius);
@@ -229,17 +338,18 @@ body {
   color: var(--text-muted);
 }
 
-/* ---- Etiquetas de etapa do funil (cores só aqui) ---- */
+/* ---- Etiquetas de etapa do funil (cores só aqui; etiqueta técnica = mono) ---- */
 .badge {
   flex-shrink: 0;
   display: inline-flex;
   align-items: center;
   padding: 4px 10px;
+  font-family: var(--font-mono);
   font-size: 12px;
-  font-weight: 600;
+  font-weight: 500;
   border: 1px solid transparent;
   border-radius: 999px;
-  background-color: var(--surface);
+  background-color: transparent;
   white-space: nowrap;
 }
 
@@ -313,12 +423,12 @@ body {
 }
 
 .textarea::placeholder {
-  color: #A6A8AE;
+  color: #5F6B82;
 }
 
 .textarea:focus {
   border-color: var(--accent);
-  box-shadow: 0 0 0 3px rgba(29, 78, 216, 0.15);
+  box-shadow: 0 0 0 3px rgba(77, 141, 255, 0.25);
 }
 
 .botao--pequeno {
@@ -357,7 +467,8 @@ body {
 }
 
 .anotacoes-data {
-  font-size: 12px;
+  font-family: var(--font-mono);
+  font-size: 11px;
   color: var(--text-muted);
 }
 
@@ -381,7 +492,7 @@ body {
   gap: 8px;
 }
 
-/* Botão em estilo de texto (Editar, Excluir, Cancelar) */
+/* Botão em estilo de texto (Editar, Excluir, Cancelar, Sair) */
 .botao-texto {
   padding: 0;
   font-family: inherit;
@@ -407,7 +518,7 @@ body {
   color: var(--danger);
 }
 
-/* ---- Tela de login ---- */
+/* ---- Telas de login e cadastro (fora do shell, mesma identidade) ---- */
 .login-page {
   min-height: 100vh;
   display: flex;
@@ -439,45 +550,6 @@ body {
 
 .auth-link a:hover {
   text-decoration: underline;
-}
-
-/* ---- Navbar interna ---- */
-.nav-esquerda {
-  display: flex;
-  align-items: center;
-  gap: 28px;
-}
-
-.nav-links {
-  display: flex;
-  align-items: center;
-  gap: 20px;
-}
-
-.nav-link {
-  font-size: 14px;
-  font-weight: 600;
-  color: var(--text-muted);
-  text-decoration: none;
-}
-
-.nav-link:hover {
-  color: var(--text);
-}
-
-.nav-link--ativo {
-  color: var(--accent);
-}
-
-.nav-direita {
-  display: flex;
-  align-items: center;
-  gap: 16px;
-}
-
-.nav-usuario {
-  font-size: 14px;
-  color: var(--text-muted);
 }
 
 /* ---- Lista de usuários ---- */
@@ -526,7 +598,7 @@ body {
   word-break: break-word;
 }
 
-/* ---- Painel do funil ---- */
+/* ---- Painel do funil (números em mono — o toque tech) ---- */
 .painel {
   display: flex;
   flex-wrap: wrap;
@@ -542,8 +614,9 @@ body {
 }
 
 .painel-numero {
-  font-size: 40px;
-  font-weight: 800;
+  font-family: var(--font-mono);
+  font-size: 36px;
+  font-weight: 700;
   line-height: 1;
   letter-spacing: -0.02em;
   color: var(--text);
@@ -563,19 +636,254 @@ body {
 }
 
 .painel-rotulo {
-  font-size: 13px;
-  font-weight: 600;
+  font-family: var(--font-mono);
+  font-size: 12px;
+  font-weight: 500;
   color: var(--text-muted);
-  text-transform: capitalize;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+}
+
+/* ---- Kanban do funil ---- */
+.kanban-topo {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+}
+
+.kanban-topo .section-title {
+  margin: 0;
+}
+
+.kanban {
+  display: flex;
+  align-items: flex-start;
+  gap: 16px;
+  overflow-x: auto;
+  padding-bottom: 8px;
+}
+
+.kanban-coluna {
+  flex: 1;
+  min-width: 230px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  padding: 12px;
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+}
+
+/* Coluna sob o cartão arrastado */
+.kanban-coluna--alvo {
+  border-color: var(--accent);
+  background-color: rgba(77, 141, 255, 0.06);
+}
+
+.kanban-cabecalho {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 2px 2px 10px;
+  border-bottom: 1px solid var(--border);
+}
+
+.kanban-etapa-cor {
+  width: 10px;
+  height: 10px;
+  border-radius: 3px;
+  flex-shrink: 0;
+}
+
+.kanban-etapa-cor--novo {
+  background-color: var(--stage-novo);
+}
+.kanban-etapa-cor--em-contato {
+  background-color: var(--stage-em-contato);
+}
+.kanban-etapa-cor--proposta {
+  background-color: var(--stage-proposta);
+}
+.kanban-etapa-cor--cliente {
+  background-color: var(--stage-cliente);
+}
+
+.kanban-etapa-nome {
+  flex: 1;
+  font-family: var(--font-mono);
+  font-size: 12px;
+  font-weight: 500;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: var(--text);
+}
+
+.kanban-contador {
+  font-family: var(--font-mono);
+  font-size: 12px;
+  color: var(--text-muted);
+}
+
+.kanban-cartoes {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  min-height: 60px; /* coluna vazia continua sendo alvo de soltura */
+}
+
+.kanban-cartao {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  padding: 12px 14px;
+  background-color: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  cursor: grab;
+}
+
+.kanban-cartao:active {
+  cursor: grabbing;
+}
+
+.kanban-cartao-nome {
+  font-size: 14px;
+  font-weight: 700;
+  color: var(--text);
+}
+
+.kanban-cartao-email {
+  font-size: 13px;
+  color: var(--text-muted);
+  word-break: break-word;
+}
+
+.kanban-cartao-tempo {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  color: var(--text-muted);
+}
+
+.kanban-vazio {
+  margin: 0;
+  padding: 12px 2px;
+  font-size: 13px;
+  color: var(--text-muted);
+}
+
+/* ---- Página do contato ---- */
+.contato-topo {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 16px;
+}
+
+.contato-nome {
+  margin: 0 0 4px;
+  font-size: 24px;
+  font-weight: 800;
+  letter-spacing: -0.01em;
+  color: var(--text);
+}
+
+.contato-dados {
+  margin: 0 0 6px;
+  font-size: 14px;
+  color: var(--text-muted);
+}
+
+.contato-tempo {
+  margin: 0;
+  font-family: var(--font-mono);
+  font-size: 11px;
+  color: var(--text-muted);
+}
+
+.contato-erro-etapa {
+  margin: 12px 0 0;
+}
+
+/* Botão em forma de link (ex.: "Voltar ao Funil") */
+a.botao {
+  display: inline-block;
+  text-decoration: none;
+}
+
+.followup-lista {
+  margin-top: 16px;
+}
+
+.followup-lista-status {
+  margin-top: 12px;
+}
+
+/* ---- Busca de contatos ---- */
+.busca-status {
+  margin: 12px 0 0;
+}
+
+.busca-lista {
+  list-style: none;
+  margin: 16px 0 0;
+  padding: 0;
+}
+
+.busca-lista li {
+  border-bottom: 1px solid var(--border);
+}
+
+.busca-lista li:last-child {
+  border-bottom: none;
+}
+
+.busca-item {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  padding: 12px 2px;
+  text-decoration: none;
+}
+
+.busca-item:hover .lista-nome {
+  color: var(--accent);
+}
+
+/* ---- Modal (superfície elevada — design.md) ---- */
+.modal-fundo {
+  position: fixed;
+  inset: 0;
+  z-index: 50;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 24px;
+  background-color: rgba(13, 17, 23, 0.7);
+}
+
+.modal {
+  width: 100%;
+  max-width: 420px;
+  padding: 28px;
+  background-color: var(--surface-elevada);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+}
+
+.modal-acoes {
+  display: flex;
+  align-items: center;
+  gap: 16px;
 }
 
 /* ---- Seletor de etapa (na lista de contatos) ---- */
 .etapa-select {
   flex-shrink: 0;
   padding: 5px 10px;
-  font-family: inherit;
+  font-family: var(--font-mono);
   font-size: 12px;
-  font-weight: 600;
+  font-weight: 500;
   border: 1px solid var(--border);
   border-radius: 999px;
   background-color: var(--surface);
@@ -598,4 +906,118 @@ body {
 .etapa-select--cliente {
   color: var(--stage-cliente);
   border-color: var(--stage-cliente);
+}
+
+/* ---- Dashboard ---- */
+.dash-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+  gap: 16px;
+}
+
+.dash-card {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  padding: 22px 24px;
+}
+
+.dash-duplo {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 24px;
+  align-items: start;
+}
+
+@media (max-width: 900px) {
+  .dash-duplo {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* Gráfico de barras simples: sem efeitos, cores das etapas */
+.grafico {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+.grafico-linha {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.grafico-rotulo {
+  width: 92px;
+  flex-shrink: 0;
+  font-family: var(--font-mono);
+  font-size: 11px;
+  font-weight: 500;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: var(--text-muted);
+}
+
+.grafico-trilha {
+  flex: 1;
+  height: 18px;
+  background-color: var(--bg);
+  border: 1px solid var(--border);
+  border-radius: 5px;
+  overflow: hidden;
+}
+
+.grafico-barra {
+  height: 100%;
+}
+
+.grafico-barra--novo {
+  background-color: var(--stage-novo);
+}
+.grafico-barra--em-contato {
+  background-color: var(--stage-em-contato);
+}
+.grafico-barra--proposta {
+  background-color: var(--stage-proposta);
+}
+.grafico-barra--cliente {
+  background-color: var(--stage-cliente);
+}
+
+.grafico-valor {
+  width: 32px;
+  flex-shrink: 0;
+  text-align: right;
+  font-family: var(--font-mono);
+  font-size: 12px;
+  color: var(--text);
+}
+
+/* Últimos contatos cadastrados */
+.dash-recentes {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.dash-recentes li {
+  border-bottom: 1px solid var(--border);
+}
+
+.dash-recentes li:last-child {
+  border-bottom: none;
+}
+
+.dash-recente {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  padding: 12px 2px;
+  text-decoration: none;
+}
+
+.dash-recente:hover .lista-nome {
+  color: var(--accent);
 }

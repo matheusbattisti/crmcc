@@ -1,6 +1,24 @@
 import { NextResponse } from "next/server";
 import { supabase } from "../../../lib/supabase";
-import { telefoneValido } from "../../../lib/validacao";
+import { telefoneValido, emailValido } from "../../../lib/validacao";
+
+// Lista todos os contatos (usada pelo kanban do funil).
+export async function GET() {
+  const { data, error } = await supabase
+    .from("contatos")
+    .select("*")
+    .order("criado_em", { ascending: false }); // mais recentes primeiro
+
+  if (error) {
+    console.error("Erro ao listar contatos:", error);
+    return NextResponse.json(
+      { error: "Não foi possível carregar os contatos. Tente de novo." },
+      { status: 500 }
+    );
+  }
+
+  return NextResponse.json(data);
+}
 
 // Porta de entrada no servidor para salvar um contato.
 // Roda só no servidor, então pode usar a chave secreta com segurança.
@@ -23,6 +41,14 @@ export async function POST(request) {
   if (!telefoneValido(telefone)) {
     return NextResponse.json(
       { error: "Telefone inválido. Use o formato brasileiro." },
+      { status: 400 }
+    );
+  }
+
+  // Email (se preenchido) precisa ter formato de email.
+  if (!emailValido(email)) {
+    return NextResponse.json(
+      { error: "Email inválido. Confira e tente de novo." },
       { status: 400 }
     );
   }

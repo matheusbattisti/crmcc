@@ -1,7 +1,7 @@
 import { redirect } from "next/navigation";
 import { getSessao } from "../../lib/auth";
 import { supabase } from "../../lib/supabase";
-import Navbar from "../navbar";
+import AppShell from "../app-shell";
 import UsuariosClient from "./usuarios-client";
 
 export const dynamic = "force-dynamic";
@@ -19,13 +19,8 @@ export default async function Usuarios() {
     .order("id", { ascending: true });
 
   return (
-    <div className="page">
-      <Navbar usuario={sessao.usuario} role={sessao.role} />
-      <main className="main">
-        <div className="app">
-          <UsuariosClient usuariosIniciais={usuarios ?? []} />
-        </div>
-      </main>
-    </div>
+    <AppShell usuario={sessao.usuario} role={sessao.role}>
+      <UsuariosClient usuariosIniciais={usuarios ?? []} />
+    </AppShell>
   );
 }

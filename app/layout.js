@@ -1,12 +1,20 @@
-import { Manrope } from "next/font/google";
+import { Manrope, JetBrains_Mono } from "next/font/google";
 import "./globals.css";
 
-// Manrope (Google Fonts) em tudo — regra do design.md.
+// Manrope em tudo; JetBrains Mono em números e etiquetas técnicas — regra do design.md.
 const manrope = Manrope({
   subsets: ["latin"],
   weight: ["400", "500", "700", "800"],
   display: "swap",
   fallback: ["system-ui", "sans-serif"],
+});
+
+const jetbrainsMono = JetBrains_Mono({
+  subsets: ["latin"],
+  weight: ["400", "500", "700"],
+  display: "swap",
+  variable: "--font-mono",
+  fallback: ["Consolas", "monospace"],
 });
 
 export const metadata = {
@@ -17,7 +25,9 @@ export const metadata = {
 export default function RootLayout({ children }) {
   return (
     <html lang="pt-BR">
-      <body className={manrope.className}>{children}</body>
+      <body className={`${manrope.className} ${jetbrainsMono.variable}`}>
+        {children}
+      </body>
     </html>
   );
 }

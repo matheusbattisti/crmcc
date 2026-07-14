@@ -2,6 +2,31 @@ import { NextResponse } from "next/server";
 import Anthropic from "@anthropic-ai/sdk";
 import { supabase } from "../../../lib/supabase";
 
+// Lista os follow-ups já gerados de um contato, do mais novo pro mais antigo.
+export async function GET(request) {
+  const contatoId = request.nextUrl.searchParams.get("contato_id");
+
+  if (!contatoId) {
+    return NextResponse.json({ error: "Contato não informado." }, { status: 400 });
+  }
+
+  const { data, error } = await supabase
+    .from("followups")
+    .select("*")
+    .eq("contato_id", contatoId)
+    .order("criado_em", { ascending: false });
+
+  if (error) {
+    console.error("Erro ao listar follow-ups:", error);
+    return NextResponse.json(
+      { error: "Não foi possível carregar os follow-ups. Tente de novo." },
+      { status: 500 }
+    );
+  }
+
+  return NextResponse.json(data);
+}
+
 export async function POST(request) {
   const { contato_id } = await request.json();
 
@@ -65,7 +90,22 @@ export async function POST(request) {
       );
     }
 
-    return NextResponse.json({ mensagem });
+    // Guarda o follow-up no banco, com a data, pra reler depois.
+    const { data: salvo, error: erroSalvar } = await supabase
+      .from("followups")
+      .insert({ contato_id, mensagem })
+      .select()
+      .single();
+
+    if (erroSalvar) {
+      console.error("Erro ao salvar follow-up:", erroSalvar);
+      return NextResponse.json(
+        { error: "Não foi possível salvar o follow-up. Tente de novo." },
+        { status: 500 }
+      );
+    }
+
+    return NextResponse.json(salvo, { status: 201 });
   } catch (erro) {
     // Registra o detalhe no servidor, mas devolve mensagem limpa ao usuário.
     console.error("Erro ao gerar follow-up:", erro);
